@@ -114,12 +114,15 @@ int Sprite::jumping(int jump, const int JUMPIT)
 	}
 	else
 	{
+		//Late Jump Frame
 		if (jump <= -10) {
 			curFrame = 10;
 		}
+		//Early Jump Frame
 		else if (jump <= 20) {
 			curFrame = 9;
 		}
+		//Start of Jump Frame
 		else {
 			curFrame = 8;
 		}
@@ -131,6 +134,7 @@ int Sprite::jumping(int jump, const int JUMPIT)
 	{ 
 		if (collided(x + frameWidth/2,  y + frameHeight))
 		{ 
+			//Landing Jump Frame
 			curFrame = 11;
 			frameCount = 0;
 			jump = JUMPIT; 

@@ -89,9 +89,17 @@ int main(void)
 			else
 				player.UpdateSprites(WIDTH,HEIGHT,2);
 			if (player.CollisionEndBlock()) {
-				cout << "Hit an End Block\n";
-				al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2 - 36, ALLEGRO_ALIGN_CENTER, "GAME OVER");
+				//Draw Background, Foreground, and Player
+				MapDrawBG(xOff, yOff, 0, 0, WIDTH, HEIGHT);
+				MapDrawFG(xOff, yOff, 0, 0, WIDTH, HEIGHT, 0);
+				player.DrawSprites(xOff, yOff);
+
+				//End message
+				al_draw_textf(font, al_map_rgb(255, 255, 255), WIDTH / 2, HEIGHT / 2, ALLEGRO_ALIGN_CENTER, "GAME OVER");
+
 				al_flip_display();
+
+				//Freeze game for 5 seconds and then exit
 				time_t startTime = time(NULL);
 				time_t currTime = time(NULL);
 				while (currTime - startTime < 5) {
