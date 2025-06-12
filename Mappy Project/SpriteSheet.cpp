@@ -1,4 +1,5 @@
 #include "SpriteSheet.h"
+#include <stdio.h>
 
 Sprite::Sprite()
 {
@@ -14,7 +15,7 @@ void Sprite::InitSprites(int width, int height)
 	y = -10;
 
 
-	maxFrame = 8;
+	maxFrame = 11;
 	curFrame = 0;
 	frameCount = 0;
 	frameDelay = 6;
@@ -29,6 +30,7 @@ void Sprite::InitSprites(int width, int height)
 
 void Sprite::UpdateSprites(int width, int height, int dir)
 {
+	printf("curFrame: %i\n", curFrame);
 	int oldx = x;
 	int oldy = y;
 
@@ -37,8 +39,9 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		x+=2; 
 		if (++frameCount > frameDelay)
 		{
+			printf("IT RAN\n");
 			frameCount=0;
-			if (++curFrame > maxFrame)
+			if (++curFrame > 7)
 				curFrame=1;
 		}
 	} else if (dir == 0){ //left key
@@ -47,11 +50,17 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		if (++frameCount > frameDelay)
 		{
 			frameCount=0;
-			if (++curFrame > maxFrame)
+			if (++curFrame > 7)
 				curFrame=1;
 		}
-	}else //represent that they hit the space bar and that mean direction = 0
+	}
+	else { //represent that they hit the space bar and that mean direction = 0
 		animationDirection = dir;
+		if (++frameCount > frameDelay) {
+			frameCount = 0;
+			curFrame = 0;
+		}
+	}
 
 	//check for collided with foreground tiles
 	if (animationDirection==0)
@@ -84,34 +93,43 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 	int fx = (curFrame % animationColumns) * frameWidth;
 	int fy = (curFrame / animationColumns) * frameHeight;
 
-	if (animationDirection==1){
+	if (animationDirection==1 || animationDirection == 2){
 		al_draw_bitmap_region(image, fx, fy, frameWidth,frameHeight, x-xoffset, y-yoffset, 0);
 	}else if (animationDirection == 0 ){
 		al_draw_bitmap_region(image, fx, fy, frameWidth,frameHeight, x-xoffset, y-yoffset, ALLEGRO_FLIP_HORIZONTAL);
-	}else if (animationDirection == 2 ){
-		al_draw_bitmap_region(image,0,0,frameWidth,frameHeight,  x-xoffset, y-yoffset, 0);
-
 	}
 }
 
 int Sprite::jumping(int jump, const int JUMPIT)
 {
-	//handle jumping
-	if (jump==JUMPIT) { 
+	if (jump==JUMPIT) {
+		isJumping = false;
 		if (!collided(x + frameWidth/2, y + frameHeight + 5))
 			jump = 0; 
 	}
 	else
 	{
+		printf("%i\n", jump);
+		if (jump <= -10) {
+			curFrame = 10;
+		}
+		else if (jump <= 20) {
+			curFrame = 9;
+		}
+		else {
+			curFrame = 8;
+		}
+		isJumping = true;
 		y -= jump/3; 
-		jump--; 
-		curFrame=0;
+		jump--;
 	}
 
 	if (jump<0) 
 	{ 
 		if (collided(x + frameWidth/2,  y + frameHeight))
 		{ 
+			curFrame = 11;
+			frameCount = 0;
 			jump = JUMPIT; 
 			while (collided(x + frameWidth/2,y + frameHeight))
 			{
