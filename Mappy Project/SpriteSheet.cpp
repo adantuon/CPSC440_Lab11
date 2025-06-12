@@ -74,10 +74,13 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 	else if (animationDirection ==1)
 	{ 
 		if (collided(x + frameWidth, y + frameHeight)) { //collision detection to the right
-			x = oldx; 
+			x = oldx;
 			y= oldy;
 		}
 	}
+	
+
+	//Ceiling collision handling
 	if (y < 0) {
 		y = 0;
 	}

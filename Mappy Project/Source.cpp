@@ -161,6 +161,7 @@ int main(void)
 			render = false;
 
 			//update the map scroll position
+			MapUpdateAnims();
 			xOff = player.getX()+player.getWidth() - WIDTH/2 ;
 			yOff = player.getY()+player.getHeight()   - HEIGHT/2 ;
 
