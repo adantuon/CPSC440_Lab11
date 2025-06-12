@@ -60,6 +60,8 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		}
 	}
 
+	
+
 	//check for collided with foreground tiles
 	if (animationDirection==0)
 	{ 
@@ -75,6 +77,9 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 			x = oldx; 
 			y= oldy;
 		}
+	}
+	if (y < 0) {
+		y = 0;
 	}
 }
 
