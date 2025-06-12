@@ -1,6 +1,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_primitives.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include "SpriteSheet.h"
 #include "mappy_A5.h"
 #include <iostream>
@@ -42,6 +44,8 @@ int main(void)
 	al_install_keyboard();
 	al_init_image_addon();
 	al_init_primitives_addon();
+	al_init_font_addon();
+	al_init_ttf_addon();
 
 	player.InitSprites(WIDTH,HEIGHT);
 
@@ -49,6 +53,8 @@ int main(void)
 	int yOff = 0;
 	if(MapLoad("sample.fmp", 1))
 		return -5;
+
+	ALLEGRO_FONT *font = al_load_font("PressStart2P.ttf", 48, 0);
 
 	event_queue = al_create_event_queue();
 	timer = al_create_timer(1.0 / 60);
@@ -82,8 +88,18 @@ int main(void)
 				player.UpdateSprites(WIDTH,HEIGHT,1);
 			else
 				player.UpdateSprites(WIDTH,HEIGHT,2);
-			if (player.CollisionEndBlock())
-				cout<<"Hit an End Block\n";
+			if (player.CollisionEndBlock()) {
+				cout << "Hit an End Block\n";
+				al_draw_textf(font, al_map_rgb(255, 0, 0), WIDTH / 2, HEIGHT / 2 - 36, ALLEGRO_ALIGN_CENTER, "GAME OVER");
+				al_flip_display();
+				time_t startTime = time(NULL);
+				time_t currTime = time(NULL);
+				while (currTime - startTime < 5) {
+					currTime = time(NULL);
+				}
+				done = true;
+			}
+				
 			render = true;
 
 		}

@@ -30,7 +30,6 @@ void Sprite::InitSprites(int width, int height)
 
 void Sprite::UpdateSprites(int width, int height, int dir)
 {
-	printf("curFrame: %i\n", curFrame);
 	int oldx = x;
 	int oldy = y;
 
@@ -39,7 +38,6 @@ void Sprite::UpdateSprites(int width, int height, int dir)
 		x+=2; 
 		if (++frameCount > frameDelay)
 		{
-			printf("IT RAN\n");
 			frameCount=0;
 			if (++curFrame > 7)
 				curFrame=1;
@@ -109,7 +107,6 @@ int Sprite::jumping(int jump, const int JUMPIT)
 	}
 	else
 	{
-		printf("%i\n", jump);
 		if (jump <= -10) {
 			curFrame = 10;
 		}
