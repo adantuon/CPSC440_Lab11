@@ -35,7 +35,6 @@ private:
 	int animationColumns;
 	int animationRows;
 	int animationDirection;
-	bool isJumping;
 
 	ALLEGRO_BITMAP *image;
 };

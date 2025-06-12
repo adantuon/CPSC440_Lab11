@@ -101,7 +101,6 @@ void Sprite::DrawSprites(int xoffset, int yoffset)
 int Sprite::jumping(int jump, const int JUMPIT)
 {
 	if (jump==JUMPIT) {
-		isJumping = false;
 		if (!collided(x + frameWidth/2, y + frameHeight + 5))
 			jump = 0; 
 	}
@@ -116,7 +115,6 @@ int Sprite::jumping(int jump, const int JUMPIT)
 		else {
 			curFrame = 8;
 		}
-		isJumping = true;
 		y -= jump/3; 
 		jump--;
 	}
