@@ -1,3 +1,5 @@
+//Aiden D'Antuono
+
 #include "SpriteSheet.h"
 #include <stdio.h>
 
